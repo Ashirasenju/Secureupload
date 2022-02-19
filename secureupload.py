@@ -79,7 +79,44 @@ if ext == ("docx"):
     os.remove("[Content_Types].xml")
     os.remove(zipfile)
     shutil.rmtree("docProps\\")
-if ext == ("xlsx"):
+elif ext == ("xlsx"):
+    zipfile = path_1 + ".zip"
+    
+    os.rename(path_1, zipfile)
+    
+    with ZipFile(zipfile, 'r') as zip:
+        zip.extractall(datadocx)
+    path = "docProps\\core.xml".format(os.getcwd())
+    file = open(path, "r")
+    header, content = file.readlines()
+
+    position1 = content.find("<dc:creator>")
+    position2 = content.find("</dc:creator>")
+    position3 = content.find("<cp:lastModifiedBy>")
+    position4 = content.find("</cp:lastModifiedBy>")
+    
+
+    remove_stepone = content[position1+12: position2]
+    remove_steptwo = content[position3 + 19: position4]
+
+
+    content1 = content.replace(remove_stepone, "")
+    content2 = content1.replace(remove_steptwo, "")
+    file.close()
+    file = open(path, "r")
+    
+
+
+    data = file.read()
+    file.seek(0)
+    file.close()
+    file = open(path, "wb")
+    bheader = header.encode("utf-8")
+    bcontent = content2.encode("utf-8")
+    file.write(bheader + bcontent)
+    file.truncate() 
+    file.close()
+elif ext == ("pptx"):
     zipfile = path_1 + ".zip"
     
     os.rename(path_1, zipfile)
@@ -121,6 +158,60 @@ if ext == ("xlsx"):
         zip.write("_rels\\")
         zip.write("_rels\\.rels")
         zip.write("docProps\\")
+        zip.write("docProps\\app.xml")
+        zip.write("docProps\\core.xml")
+        zip.write("ppt\\")
+        zip.write("ppt\\_rels")
+        zip.write("ppt\\_rels\\presentation.xml.rels")
+        slidelayout = True
+        boucle = 1
+            
+        while slidelayout:
+            try:
+                zip.write("ppt\\slideLayouts\\slideLayout{}.xml".format(boucle))
+                boucle = boucle+1
+            except FileNotFoundError():
+                slidelayout = False
+        zip.write("[Content_Types].xml")
+        zip.write("\\ppt\\slideLayouts\\_rels")
+        
+        
+        slideMaster = True
+        boucle = 1
+        
+        while slideMaster:
+            try:
+                zip.write("ppt\\slideMasters\\slideMaster{}.xml".format(boucle))
+                boucle = boucle +1
+            except FileNotFoundError():
+                slideMaster = False
+
+        slides = True
+        boucle = 1
+        
+        while slides:
+            try:
+                zip.write("ppt\\slides\\slide{}.xml".format(boucle))
+                boucle = boucle + 1
+            except FileNotFoundError():
+                slides = False
+        
+        theme = True
+        boucle = 1
+        while theme:
+            try:
+                zip.write("ppt\\theme\\theme{}.xml".format(boucle))
+                boucle = boucle +1
+            except FileNotFoundError():
+                theme = False
+        zip.write("ppt\\presentation.xml")
+        zip.write("ppt\\presProps.xml")
+        zip.write("ppt\\tableStyles.xml")
+        zip.write("ppt\\viewProps.xml")
+    with ZipFile("doc.zip", 'w') as zip:
+        zip.write("_rels\\")
+        zip.write("_rels\\.rels")
+        zip.write("docProps\\")
         zip.write("xl\\")
         zip.write("xl\\_rels")
         zip.write("xl\\theme")
@@ -148,6 +239,99 @@ if ext == ("xlsx"):
         zip.write("docProps\\core.xml")
         zip.write('[Content_Types].xml')
         zip.write("\\xl\\_rels\\workbook.xml.rels")
+        
+elif ext == ("pptx"):
+    zipfile = path_1 + ".zip"
+    
+    os.rename(path_1, zipfile)
+    
+    with ZipFile(zipfile, 'r') as zip:
+        zip.extractall(datadocx)
+    path = "docProps\\core.xml".format(os.getcwd())
+    file = open(path, "r")
+    header, content = file.readlines()
+
+    position1 = content.find("<dc:creator>")
+    position2 = content.find("</dc:creator>")
+    position3 = content.find("<cp:lastModifiedBy>")
+    position4 = content.find("</cp:lastModifiedBy>")
+    
+
+    remove_stepone = content[position1+12: position2]
+    remove_steptwo = content[position3 + 19: position4]
+
+
+    content1 = content.replace(remove_stepone, "")
+    content2 = content1.replace(remove_steptwo, "")
+    file.close()
+    file = open(path, "r")
+    
+
+
+    data = file.read()
+    file.seek(0)
+    file.close()
+    file = open(path, "wb")
+    bheader = header.encode("utf-8")
+    bcontent = content2.encode("utf-8")
+    file.write(bheader + bcontent)
+    file.truncate() 
+    file.close()
+
+    with ZipFile("doc.zip", 'w') as zip:
+        zip.write("_rels\\")
+        zip.write("_rels\\.rels")
+        zip.write("docProps\\")
+        zip.write("docProps\\app.xml")
+        zip.write("docProps\\core.xml")
+        zip.write("ppt\\")
+        zip.write("ppt\\_rels")
+        zip.write("ppt\\_rels\\presentation.xml.rels")
+        slidelayout = True
+        boucle = 1
+            
+        while slidelayout:
+            try:
+                zip.write("ppt\\slideLayouts\\slideLayout{}.xml".format(boucle))
+                boucle = boucle+1
+            except FileNotFoundError():
+                slidelayout = False
+        zip.write("[Content_Types].xml")
+        zip.write("\\ppt\\slideLayouts\\_rels")
+        
+        
+        slideMaster = True
+        boucle = 1
+        
+        while slideMaster:
+            try:
+                zip.write("ppt\\slideMasters\\slideMaster{}.xml".format(boucle))
+                boucle = boucle +1
+            except FileNotFoundError():
+                slideMaster = False
+
+        slides = True
+        boucle = 1
+        
+        while slides:
+            try:
+                zip.write("ppt\\slides\\slide{}.xml".format(boucle))
+                boucle = boucle + 1
+            except FileNotFoundError():
+                slides = False
+        
+        theme = True
+        boucle = 1
+        while theme:
+            try:
+                zip.write("ppt\\theme\\theme{}.xml".format(boucle))
+                boucle = boucle +1
+            except FileNotFoundError():
+                theme = False
+        zip.write("ppt\\presentation.xml")
+        zip.write("ppt\\presProps.xml")
+        zip.write("ppt\\tableStyles.xml")
+        zip.write("ppt\\viewProps.xml")
     
     os.rename("doc.zip", "{}e.xlsx".format(name_))
     shutil.move("{}_(cleaned).xlsx".format(name), directory)
