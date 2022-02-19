@@ -4,8 +4,7 @@ import shutil
 import time
 from PIL import Image
 from PyPDF2 import PdfFileWriter, PdfFileReader
-from PyPDF2.generic import NameObject, createStringObject
-
+from PyPDF2.generic import NameObject, createStringObjec
 
 path_1 = input("What is the path of your file ?")
 directory = os.path.dirname(path_1)
