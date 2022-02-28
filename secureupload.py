@@ -354,4 +354,4 @@ elif ext == ("pdf"):
     for page in range(input_pdf.getNumPages()):
         output.addPage(input_pdf.getPage(page))
     outputStream = open(path_1 + "{}_clear.pdf", 'wb'.format(name))
-    output.write(outputStream)
+    output.write(outputStream)   
