@@ -357,19 +357,5 @@ elif ext == ("pdf"):
     outputStream = open(path_1 + "{}_clear.pdf", 'wb'.format(name))
     output.write(outputStream)
 
-def checkcode(path):
-    logs = open("logs.txt", "w")
-    with file(path, "r") as f:
-        for lines in f:
-            if "subprocess.run" in lines:
-                logging.warn("Your file is using a unsecure methode. SUID can be used. Please use an another one.")
-            elif "input" in lines:
-                end_line = lines.find(")\n")
-                start = linex.find("=")
-                remove = lines[start: end_line]
-                var = lines.replace(remove, "")
-
-                
-
                 
                 
