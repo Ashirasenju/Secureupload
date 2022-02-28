@@ -5,14 +5,15 @@ import time
 from PIL import Image
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from PyPDF2.generic import NameObject, createStringObjec
-
+import logging
+# lets configure the program
 path_1 = input("What is the path of your file ?")
 directory = os.path.dirname(path_1)
 name_ = os.path.basename(path_1)
 name, ext = name_.split(".")
 
 localdir = os.getcwd()
-
+logging.basicConfig(filename="logs.log", filemode="w", format="%(levelname)s - %(message)s")
 
 datadocx = (os.getcwd())
 if ext == ("docx"):
@@ -354,4 +355,21 @@ elif ext == ("pdf"):
     for page in range(input_pdf.getNumPages()):
         output.addPage(input_pdf.getPage(page))
     outputStream = open(path_1 + "{}_clear.pdf", 'wb'.format(name))
-    output.write(outputStream)   
+    output.write(outputStream)
+
+def checkcode(path):
+    logs = open("logs.txt", "w")
+    with file(path, "r") as f:
+        for lines in f:
+            if "subprocess.run" in lines:
+                logging.warn("Your file is using a unsecure methode. SUID can be used. Please use an another one.")
+            elif "input" in lines:
+                end_line = lines.find(")\n")
+                start = linex.find("=")
+                remove = lines[start: end_line]
+                var = lines.replace(remove, "")
+
+                
+
+                
+                
